@@ -1,15 +1,15 @@
 # README
 
 - Download disk.py  
-    
+
 - The program requires Tkinter to be installed  
   Install in Ubuntu using apt-get install python3-tk
 
 - Run the program using python disk.py  
-    
+
 - python disk.py \-h  
   Will give all the options that you can use  
-    
+
 - python disk.py \-a 10 \-G  
   runs the simulator in graphical mode to serve request 10 (sector number)  
   - A window should appear with a simple disk on it  
@@ -19,7 +19,7 @@
   - To calculate the total time taken, you would need to know a few details about the disk. First, the rotational speed is by default set to 1 degree per time unit. Thus, to make a complete revolution, it takes 360 time units. Second, transfer begins and ends at the halfway point between sectors. Thus, to read sector 10, the transfer begins halfway between 9 and 10, and ends halfway between 10 and 11\. Finally, in the default disk, there are 12 sectors per track, meaning that each sector takes up 30 degrees of the rotational space. Thus, to read a sector, it takes 30 time units (given the default speed of rotation)  
   - With this information in hand, you now should be able to compute the seek, rotation, and transfer times for accessing sector 10\. Because the head starts on the same track as 10, there is no seek time. Because the disk rotates at 1 degree / time unit, it takes 105 time units to get to the beginning of sector 10, halfway between 9 and 10 (note that it is exactly 90 degrees to the middle of sector 9, and another 15 to the halfway point). Finally, to transfer the sector takes 30 time units  
   - To see the answer faster without running the graphical interface, run the following python disk.py \-a 10 \-c  
-      
+
 - python disk.py \-a 10,18 \-G  
   - How long does this take?  
   - The distance between each track is by default 40 distance units, and the default rate of seeking is 1 distance unit per unit time. Thus, a seek from the outer track to the middle track takes 40 time units.  
@@ -48,5 +48,5 @@
   - ARMTRACK (-t) \- starting track of the head  
   - NUMTRACKS (-n) \- number of tracks in the disk  
   - INITIALDIR (-i) \- Initial direction of movement of the head  
-      
+
 - You should now have a basic idea of how the simulator works. Now start answering the assignment question.
