@@ -1,5 +1,10 @@
 # Lab 2: Take Home
 
+> Warning:
+>
+> The lab will be auto-graded
+> Do NOT make any changes to [`CMakeLists.txt`](CMakeLists.txt) or [`ls_test.cpp`](ls_test.cpp)
+
 ## Usage
 
 To test your solution:
@@ -70,8 +75,7 @@ The following `FILE_TYPE`'s are expected:
 List **recursively**.
 
 > Refer to [`ls_test.cpp`](ls_test.cpp) for examples.
-> 
-
+>
 
 > NOTE: Your implementation will be tested on combinations of flags as well.
 >
