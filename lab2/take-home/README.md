@@ -5,7 +5,7 @@
 To test your solution:
 
 ```bash
-cd PATH/TO/lab2/take-home
+    cd PATH/TO/lab2/take-home
     mkdir build
     cd build
     cmake ..
