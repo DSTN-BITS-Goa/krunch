@@ -1,9 +1,7 @@
 #include "ls.h"
 
-#include <dirent.h>
 #include <gtest/gtest.h>
 
-#include <memory>
 #include <string>
 #include <vector>
 
