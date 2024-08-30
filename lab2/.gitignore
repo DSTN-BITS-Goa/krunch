@@ -1,5 +1,5 @@
-build/
-data/
+*/build/
+*/data/
 
 # Created by https://www.toptal.com/developers/gitignore/api/c++,cmake,visualstudiocode,clion+all
 # Edit at https://www.toptal.com/developers/gitignore?templates=c++,cmake,visualstudiocode,clion+all
