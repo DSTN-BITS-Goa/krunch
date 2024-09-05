@@ -7,6 +7,8 @@
 
 **WARNING: IF YOU ARE A STUDENT IN THE CLASS, DO NOT DIRECTLY FORK THIS REPO. DO NOT PUSH PROJECT SOLUTIONS PUBLICLY. THIS IS AN ACADEMIC INTEGRITY VIOLATION AND APPROPRIATE ACTION WILL BE TAKEN.**
 
+Starring this repo may or may not affect your grades :)
+
 ## Cloning this Repository
 
 1. Go [here](https://github.com/new) to create a new repository under your account. The name should be `CSF446_DSTN_2024_PairX` where `X` is your Pair number. Select **Private** for the repository visibility level. Skip this step if you already have created a private repo named `CSF446_DSTN_2024_PairX`. Add the instructor and the TAs as collaborators to your private repo.
