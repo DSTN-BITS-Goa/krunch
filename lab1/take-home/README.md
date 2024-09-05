@@ -8,6 +8,12 @@ To test your solution:
 python test.py
 ```
 
+To run the eval script:
+
+```bash
+python autograde.py
+```
+
 ## Question
 
 ### Question 1
