@@ -8,6 +8,12 @@ To test your solution:
 python test.py
 ```
 
+To run the eval script:
+
+```bash
+python autograde.py
+```
+
 ## Question
 
 Add an implementation of the [$V(R)$](https://dl.acm.org/doi/pdf/10.1145/7351.8929) algorithm to [`disk.py`](disk.py)
