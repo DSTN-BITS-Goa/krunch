@@ -1,9 +1,13 @@
-#include "ls.h"
-
 #include <gtest/gtest.h>
 
 #include <string>
 #include <vector>
+
+#include "ls.h"
+
+int NUM_TCS = 11;
+std::vector<int> scores(20);
+#include <fstream>
 
 class LsTest : public ::testing::Test {
  protected:
@@ -46,8 +50,10 @@ TEST_F(LsTest, hindi_l) {
 
   const Ls::StringMatrix result = lsCommand.Run(path);
 
-  EXPECT_TRUE(AreMatricesEqual(answer, result))
+  bool passed = AreMatricesEqual(answer, result);
+  EXPECT_TRUE(passed)
       << "The matrices are not equal!";
+    scores[0] = passed ? 10 : 0;
 }
 
 TEST_F(LsTest, hindi_haR) {
@@ -66,8 +72,10 @@ TEST_F(LsTest, hindi_haR) {
 
   const Ls::StringMatrix result = lsCommand.Run(path);
 
-  EXPECT_TRUE(AreMatricesEqual(answer, result))
+  bool passed = AreMatricesEqual(answer, result);
+  EXPECT_TRUE(passed)
       << "The matrices are not equal!";
+    scores[1] = passed ? 10 : 0;
 }
 
 TEST_F(LsTest, hindi_hR) {
@@ -77,8 +85,10 @@ TEST_F(LsTest, hindi_hR) {
 
   const Ls::StringMatrix result = lsCommand.Run(path);
 
-  EXPECT_TRUE(AreMatricesEqual(answer, result))
+  bool passed = AreMatricesEqual(answer, result);
+  EXPECT_TRUE(passed)
       << "The matrices are not equal!";
+    scores[2] = passed ? 10 : 0;
 }
 
 TEST_F(LsTest, kannada_alRh) {
@@ -91,8 +101,10 @@ TEST_F(LsTest, kannada_alRh) {
 
   const Ls::StringMatrix result = lsCommand.Run(path);
 
-  EXPECT_TRUE(AreMatricesEqual(answer, result))
+  bool passed = AreMatricesEqual(answer, result);
+  EXPECT_TRUE(passed)
       << "The matrices are not equal!";
+    scores[3] = passed ? 20 : 0;
 }
 
 TEST_F(LsTest, hindi_hlaR) {
@@ -113,8 +125,10 @@ TEST_F(LsTest, hindi_hlaR) {
 
   const Ls::StringMatrix result = lsCommand.Run(path);
 
-  EXPECT_TRUE(AreMatricesEqual(answer, result))
+  bool passed = AreMatricesEqual(answer, result);
+  EXPECT_TRUE(passed)
       << "The matrices are not equal!";
+    scores[4] = passed ? 20 : 0;
 }
 
 TEST_F(LsTest, data_lRh) {
@@ -130,8 +144,10 @@ TEST_F(LsTest, data_lRh) {
 
   const Ls::StringMatrix result = lsCommand.Run(path);
 
-  EXPECT_TRUE(AreMatricesEqual(answer, result))
+  bool passed = AreMatricesEqual(answer, result);
+  EXPECT_TRUE(passed)
       << "The matrices are not equal!";
+    scores[5] = passed ? 20 : 0;
 }
 
 TEST_F(LsTest, data_alhR) {
@@ -167,6 +183,139 @@ TEST_F(LsTest, data_alhR) {
 
   const Ls::StringMatrix result = lsCommand.Run(path);
 
-  EXPECT_TRUE(AreMatricesEqual(answer, result))
+  bool passed = AreMatricesEqual(answer, result);
+  EXPECT_TRUE(passed)
       << "The matrices are not equal!";
+    scores[6] = passed ? 30 : 0;
+}
+
+TEST_F(LsTest, hidden_lh) {
+  Ls lsCommand(false, true, false, true);
+  const std::string path = "../hidden_data";
+  const Ls::StringMatrix answer = {
+      {"../hidden_data/swapfile", "../hidden_data/swapfile_pc", "FILE"},
+  };
+
+  const Ls::StringMatrix result = lsCommand.Run(path);
+
+  bool passed = AreMatricesEqual(answer, result);
+  EXPECT_TRUE(passed)
+      << "The matrices are not equal!";
+    scores[7] = passed ? 30 : 0;
+}
+
+TEST_F(LsTest, abc_aRh) {
+  Ls lsCommand(true, false, true, true);
+  const std::string path = "../hidden_data/home/abc";
+  const Ls::StringMatrix answer = {
+      {"../hidden_data/home/abc/.", "../hidden_data/home/abc/.cache/..",
+       "../hidden_data/home/abc/Documents/..",
+       "../hidden_data/home/abc/Downloads/.."},
+      {"../hidden_data/home/abc/.cache", "../hidden_data/home/abc/.cache/."},
+      {"../hidden_data/home/abc/.cache/jdk",
+       "../hidden_data/home/abc/.cache/jdk1"},
+      {"../hidden_data/home/abc/Documents",
+       "../hidden_data/home/abc/Documents/.",
+       "../hidden_data/home/abc/Documents/temp/.."},
+      {"../hidden_data/home/abc/Documents/temp",
+       "../hidden_data/home/abc/Documents/temp/."},
+      {"../hidden_data/home/abc/Downloads",
+       "../hidden_data/home/abc/Downloads/."},
+  };
+
+  const Ls::StringMatrix result = lsCommand.Run(path);
+
+  bool passed = AreMatricesEqual(answer, result);
+  EXPECT_TRUE(passed)
+      << "The matrices are not equal!";
+    scores[8] = passed ? 50 : 0;
+}
+
+TEST_F(LsTest, hidden_lRh) {
+  Ls lsCommand(false, true, true, true);
+  const std::string path = "../hidden_data";
+  const Ls::StringMatrix answer = {
+      {"../hidden_data/bin/cat.exe", "../hidden_data/home/abc/cat", "FILE"},
+      {"../hidden_data/bin/ls", "../hidden_data/etc/ls_etc", "FILE"},
+      {"../hidden_data/swapfile", "../hidden_data/swapfile_pc", "FILE"},
+  };
+
+  const Ls::StringMatrix result = lsCommand.Run(path);
+
+  bool passed = AreMatricesEqual(answer, result);
+  EXPECT_TRUE(passed)
+      << "The matrices are not equal!";
+    scores[9] = passed ? 40 : 0;
+}
+
+TEST_F(LsTest, hidden_alRh) {
+  Ls lsCommand(true, true, true, true);
+  const std::string path = "../hidden_data";
+  const Ls::StringMatrix answer = {
+      {"../hidden_data/.", "../hidden_data/bin/..", "../hidden_data/etc/..",
+       "../hidden_data/home/..", "DIRECTORY"},
+      {"../hidden_data/bin", "../hidden_data/bin/.", "DIRECTORY"},
+      {"../hidden_data/bin/cat.exe", "../hidden_data/home/abc/cat", "FILE"},
+      {"../hidden_data/bin/ls", "../hidden_data/etc/ls_etc",
+       "../hidden_data/home/abc/Downloads/.ls", "FILE"},
+      {"../hidden_data/etc", "../hidden_data/etc/.",
+       "../hidden_data/etc/pacman/..", "DIRECTORY"},
+      {"../hidden_data/etc/pacman", "../hidden_data/etc/pacman/.", "DIRECTORY"},
+      {"../hidden_data/home", "../hidden_data/home/.",
+       "../hidden_data/home/abc/..", "DIRECTORY"},
+      {"../hidden_data/home/abc", "../hidden_data/home/abc/.",
+       "../hidden_data/home/abc/.cache/..",
+       "../hidden_data/home/abc/Documents/..",
+       "../hidden_data/home/abc/Downloads/..", "DIRECTORY"},
+      {"../hidden_data/home/abc/.cache", "../hidden_data/home/abc/.cache/.",
+       "DIRECTORY"},
+      {"../hidden_data/home/abc/.cache/jdk",
+       "../hidden_data/home/abc/.cache/jdk1", "FILE"},
+      {"../hidden_data/home/abc/Documents",
+       "../hidden_data/home/abc/Documents/.",
+       "../hidden_data/home/abc/Documents/temp/..", "DIRECTORY"},
+      {"../hidden_data/home/abc/Documents/temp",
+       "../hidden_data/home/abc/Documents/temp/.", "DIRECTORY"},
+      {"../hidden_data/home/abc/Documents/temp/.swapfile",
+       "../hidden_data/swapfile", "../hidden_data/swapfile_pc", "FILE"},
+      {"../hidden_data/home/abc/Downloads",
+       "../hidden_data/home/abc/Downloads/.", "DIRECTORY"},
+  };
+
+  const Ls::StringMatrix result = lsCommand.Run(path);
+
+  bool passed = AreMatricesEqual(answer, result);
+  EXPECT_TRUE(passed)
+      << "The matrices are not equal!";
+    scores[10] = passed ? 100 : 0;
+}
+
+int main(int argc, char **argv) {
+  ::testing::InitGoogleTest(&argc, argv);
+  int result = RUN_ALL_TESTS();
+
+  // Manually construct JSON in one line
+  std::ostringstream jsonOutput;
+
+  // Write _presentation line
+  jsonOutput << "{\"_presentation\":\"semantic\"}\n";
+
+  // Write results line
+  jsonOutput << "{\"scores\":{";
+
+  for (size_t i = 0; i < NUM_TCS; ++i) {
+    jsonOutput << "\"test_case_" << i + 1 << "\": " << scores[i];
+    if (i != NUM_TCS - 1) {
+      jsonOutput << ",";
+    }
+  }
+
+  jsonOutput << "}}";
+
+  // Write JSON to a file
+  std::ofstream outFile("test_results.json");
+  outFile << jsonOutput.str();
+  outFile.close();
+
+  return 0;
 }
