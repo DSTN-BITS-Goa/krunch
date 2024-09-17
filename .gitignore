@@ -1,3 +1,8 @@
+build/
+data/
+hidden_data/
+
+
 # Created by https://www.toptal.com/developers/gitignore/api/python,c,pycharm,visualstudiocode
 # Edit at https://www.toptal.com/developers/gitignore?templates=python,c,pycharm,visualstudiocode
 ### Jetbrains ###
@@ -360,9 +365,5 @@ pyrightconfig.json
 .history
 .ionide
 
-### Misc ###
-build/
-data/
-hidden_data/
 # End of https://www.toptal.com/developers/gitignore/api/python,c,pycharm,visualstudiocode
 
