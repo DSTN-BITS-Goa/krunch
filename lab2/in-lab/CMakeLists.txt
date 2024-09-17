@@ -1,5 +1,5 @@
-cmake_minimum_required(VERSION 3.10)
-project(krunch)
+cmake_minimum_required(VERSION 3.22)
+project(krunch-private)
 
 # Set C++ standard
 set(CMAKE_CXX_STANDARD 14)
@@ -69,8 +69,51 @@ add_custom_target(create_hardlinks
         COMMAND ${CMAKE_COMMAND} -E create_hardlink "${TEST_DATA_DIR}/bengali/malayalam/swagatham.txt" "${TEST_DATA_DIR}/hindi/tamil/telugu/.malayalam_swagatham_hardlink.txt"
 )
 
-# Ensure the hardlinks are created before running tests
-add_dependencies(run_tests create_hardlinks)
+# Define the root directory where the folder structure will be created
+set(HIDDEN_TEST_DATA_DIR "${CMAKE_SOURCE_DIR}/hidden_data")
+
+# Custom command to create the folder structure with Indian language names
+add_custom_target(create_hidden_test_data ALL
+        COMMAND ${CMAKE_COMMAND} -E make_directory "${HIDDEN_TEST_DATA_DIR}/home/abc/Documents/temp"
+        COMMAND ${CMAKE_COMMAND} -E make_directory "${HIDDEN_TEST_DATA_DIR}/home/abc/Downloads"
+        COMMAND ${CMAKE_COMMAND} -E make_directory "${HIDDEN_TEST_DATA_DIR}/home/abc/.cache"
+        COMMAND ${CMAKE_COMMAND} -E make_directory "${HIDDEN_TEST_DATA_DIR}/bin"
+        COMMAND ${CMAKE_COMMAND} -E make_directory "${HIDDEN_TEST_DATA_DIR}/etc/pacman"
+
+        COMMAND ${CMAKE_COMMAND} -E touch "${HIDDEN_TEST_DATA_DIR}/swapfile"
+        COMMAND ${CMAKE_COMMAND} -E touch "${HIDDEN_TEST_DATA_DIR}/bin/ls"
+        COMMAND ${CMAKE_COMMAND} -E touch "${HIDDEN_TEST_DATA_DIR}/bin/cat.exe"
+        COMMAND ${CMAKE_COMMAND} -E touch "${HIDDEN_TEST_DATA_DIR}/etc/pacman/pacman.conf"
+        COMMAND ${CMAKE_COMMAND} -E touch "${HIDDEN_TEST_DATA_DIR}/home/abc/Downloads/random.jpeg"
+        COMMAND ${CMAKE_COMMAND} -E touch "${HIDDEN_TEST_DATA_DIR}/home/abc/Downloads/assignment.pdf"
+        COMMAND ${CMAKE_COMMAND} -E touch "${HIDDEN_TEST_DATA_DIR}/home/abc/RanDOM.c"
+        COMMAND ${CMAKE_COMMAND} -E touch "${HIDDEN_TEST_DATA_DIR}/home/abc/Documents/hello.c"
+        COMMAND ${CMAKE_COMMAND} -E touch "${HIDDEN_TEST_DATA_DIR}/home/abc/Documents/temp/hello.cpp"
+        COMMAND ${CMAKE_COMMAND} -E touch "${HIDDEN_TEST_DATA_DIR}/home/abc/Documents/temp/hello.java"
+
+        # Create hidden files
+        COMMAND ${CMAKE_COMMAND} -E touch "${HIDDEN_TEST_DATA_DIR}/home/abc/.cache/jdk"
+        COMMAND ${CMAKE_COMMAND} -E touch "${HIDDEN_TEST_DATA_DIR}/etc/.pacmanrc"
+        COMMAND ${CMAKE_COMMAND} -E touch "${HIDDEN_TEST_DATA_DIR}/home/abc/.bash_history"
+        COMMAND ${CMAKE_COMMAND} -E touch "${HIDDEN_TEST_DATA_DIR}/home/abc/Documents/temp/.gitignore"
+
+        # Create symbolic links
+        COMMAND ${CMAKE_COMMAND} -E create_symlink "${HIDDEN_TEST_DATA_DIR}/home/abc/Documents/temp/hello.cpp" "${HIDDEN_TEST_DATA_DIR}/home/abc/hello.cpp"
+        COMMAND ${CMAKE_COMMAND} -E create_symlink "${HIDDEN_TEST_DATA_DIR}/home/abc/.bash_history" "${HIDDEN_TEST_DATA_DIR}/etc/.bashrcetc_history"
+        COMMAND ${CMAKE_COMMAND} -E create_symlink "${HIDDEN_TEST_DATA_DIR}/bin/ls" "${HIDDEN_TEST_DATA_DIR}/home/abc/ls"
+)
+
+add_custom_target(create_hardlinks_hidden
+        DEPENDS create_hidden_test_data
+        COMMAND ${CMAKE_COMMAND} -E create_hardlink "${HIDDEN_TEST_DATA_DIR}/swapfile" "${HIDDEN_TEST_DATA_DIR}/home/abc/Documents/temp/.swapfile"
+        COMMAND ${CMAKE_COMMAND} -E create_hardlink "${HIDDEN_TEST_DATA_DIR}/swapfile" "${HIDDEN_TEST_DATA_DIR}/swapfile_pc"
+        COMMAND ${CMAKE_COMMAND} -E create_hardlink "${HIDDEN_TEST_DATA_DIR}/bin/ls" "${HIDDEN_TEST_DATA_DIR}/home/abc/Downloads/.ls"
+        COMMAND ${CMAKE_COMMAND} -E create_hardlink "${HIDDEN_TEST_DATA_DIR}/bin/ls" "${HIDDEN_TEST_DATA_DIR}/etc/ls_etc"
+        COMMAND ${CMAKE_COMMAND} -E create_hardlink "${HIDDEN_TEST_DATA_DIR}/bin/cat.exe" "${HIDDEN_TEST_DATA_DIR}/home/abc/cat"
+        COMMAND ${CMAKE_COMMAND} -E create_hardlink "${HIDDEN_TEST_DATA_DIR}/home/abc/.cache/jdk" "${HIDDEN_TEST_DATA_DIR}/home/abc/.cache/jdk1"
+)
+
+add_dependencies(run_tests create_hardlinks create_hardlinks_hidden)
 
 # Add a test target to be used with CTest
 enable_testing()
