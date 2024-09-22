@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.20)
 
 # Project information
-project(MyFuseFileSystem VERSION 1.0 LANGUAGES CXX)
+project(krunch VERSION 1.0 LANGUAGES CXX)
 
 # Set C++ standard
 set(CMAKE_CXX_STANDARD 17)
