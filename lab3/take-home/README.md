@@ -35,6 +35,11 @@ In this lab you will be exploring the basics of [FUSE](https://github.com/libfus
   - https://maastaar.net/fuse/linux/filesystem/c/2016/05/21/writing-a-simple-filesystem-using-fuse/
   - [FUSE Video demo](https://www.youtube.com/watch?v=aMlX2x5N9Ak)
 
+- to install fuse3 on ubuntu
+```bash
+    sudo apt-get install fuse3 libfuse3-dev
+```
+
 ## Starter code
 
 - You are given a starter implementation of a simple FUSE file system that mirrors a given folder
