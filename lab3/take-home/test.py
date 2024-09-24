@@ -176,6 +176,22 @@ class TestMyFS(unittest.TestCase):
         additional_args = ["10", "5", "2"]
         self.run_test_case(operations, 6, additional_args)
 
+    def test_case7(self):
+        operations = [
+            {'type': 'create', 'name': 'file1.txt'},
+            {'type': 'write', 'name': 'file1.txt', 'content': 'Hello\nThere\n'},
+            {'type': 'create', 'name': 'file2.txt'},
+            {'type': 'write', 'name': 'file2.txt', 'content': '\n\n\nHI\n'},
+            {'type': 'create', 'name': 'file3.txt'},
+            {'type': 'write', 'name': 'file3.txt', 'content': 'This\nis\na\nTest\n'},
+            {'type': 'read', 'name': 'file1.txt', 'offset': 0, 'length': 1024},
+            {'type': 'delete', 'name': 'file1.txt'},
+            {'type': 'write', 'name': 'file3.txt', 'content': 'This\nis\na\nTest\n'},
+            {'type': 'delete', 'name': 'file3.txt'},
+            {'type': 'read', 'name': 'file2.txt', 'offset': 0, 'length': 1024},
+        ]
+        additional_args = ["4", "5", "4"]
+        self.run_test_case(operations, 7, additional_args)
 
 if __name__ == '__main__':
     unittest.main()

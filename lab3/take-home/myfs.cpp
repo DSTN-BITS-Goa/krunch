@@ -40,6 +40,17 @@ FILE *log_open(char* file_name)
 }
 
 // DO NOT CHANGE
+void log_char(char c) {
+
+	FILE* log_file = MYFS_DATA->logfile;
+	if (c == '\n') {
+		fprintf(log_file, "\\n");  // Prints the literal characters "\n"
+	} else {
+		fprintf(log_file, "%c", c);
+	}
+}
+
+// DO NOT CHANGE
 void log_fuse_context()
 {
 	struct myfs_state *myfs_data = MYFS_DATA;
@@ -76,11 +87,7 @@ void log_fuse_context()
 		for(int j = 0; j < num_blocks; ++j) {
 			int block_index = myfs_data->inodes[i]->blocks[j];
 			for(int k = 0; k < myfs_data->DATA_BLOCK_SIZE; ++k) {
-				if (myfs_data->data_blocks[block_index]->data[k] == '\n') {
-					fprintf(log_file, "\\n");  // Prints the literal characters "\n"
-				} else {
-					fprintf(log_file, "%c", myfs_data->data_blocks[block_index]->data[k]);
-				}
+				log_char(myfs_data->data_blocks[block_index]->data[k]);
 			}
 		}
 		fprintf(log_file, "\n");
