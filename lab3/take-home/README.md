@@ -84,8 +84,9 @@ In this lab you will be exploring the basics of [FUSE](https://github.com/libfus
     - log the data blocks being read along with the data itself like so
       ```txt
       DATA BLOCK 0: com
-      DATA BLOCK 1: e!W
+      DATA BLOCK 1: e!W\n
       ```
+    - use the `log_char()` function when logging data being read
   - `myfs_write`
     - Write the data to the data blocks of the file
     - When allocating blocks choose blocks from the lowest index onwards

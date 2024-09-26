@@ -68,13 +68,13 @@ class TestMyFS(unittest.TestCase):
             print(f"Failed to read file '{name}' in test case {testcase_number}: {e}")
         finally:
             os.close(fd)
+            
     def _write_file(self, testcase_number, name, content, offset):
         """Write content to an existing file and flush changes immediately using O_SYNC."""
         try:
             file_path = os.path.join(self.mount_dir_template.format(testcase_number), name)
             fd = os.open(file_path, os.O_WRONLY | os.O_SYNC)
             os.pwrite(fd, content.encode(), offset)  # os.write requires bytes, hence encode content
-            os.close(fd)
         except Exception as e:
             print(f"Failed to write to file '{name}' in test case {testcase_number}: {e}")
         finally:
