@@ -64,13 +64,10 @@ class TestMyFS(unittest.TestCase):
 
             # Use os.pread to read from the specified offset
             data = os.pread(fd, length, offset)
-
-            # Close the file descriptor
-            os.close(fd)
-
         except Exception as e:
             print(f"Failed to read file '{name}' in test case {testcase_number}: {e}")
-
+        finally:
+            os.close(fd)
     def _write_file(self, testcase_number, name, content, offset):
         """Write content to an existing file and flush changes immediately using O_SYNC."""
         try:
@@ -80,6 +77,8 @@ class TestMyFS(unittest.TestCase):
             os.close(fd)
         except Exception as e:
             print(f"Failed to write to file '{name}' in test case {testcase_number}: {e}")
+        finally:
+            os.close(fd)
 
     def _delete_file(self, testcase_number, name):
         """Delete a file."""
