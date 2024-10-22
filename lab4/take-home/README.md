@@ -51,7 +51,7 @@ To test your solution:
 ```
 - To view the contents of your topic on the local kafka cluster
 ```bash
-    docker-compose exec kafka kafka-console-consumer.sh --bootstrap-server kafka:9092 --topic cards-topic --from-beginning```
+    docker-compose exec kafka kafka-console-consumer.sh --bootstrap-server kafka:9092 --topic cards-topic --from-beginning
 ```
 
 ## Question
