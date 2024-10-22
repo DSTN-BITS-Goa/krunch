@@ -1,0 +1,153 @@
+CREATE /file2
+PATH_TO_INODE_MAP:
+/file2: 0
+INODE_BITMAP: [1, 0, 0]
+DATA_BLOCK_BITMAP: [0, 0, 0, 0, 0, 0]
+inode0: 
+inode1: 
+inode2: 
+WRITE /file2
+PATH_TO_INODE_MAP:
+/file2: 0
+INODE_BITMAP: [1, 0, 0]
+DATA_BLOCK_BITMAP: [1, 1, 0, 0, 0, 0]
+inode0: Writefile2
+inode1: 
+inode2: 
+CREATE /file1
+PATH_TO_INODE_MAP:
+/file1: 1
+/file2: 0
+INODE_BITMAP: [1, 1, 0]
+DATA_BLOCK_BITMAP: [1, 1, 0, 0, 0, 0]
+inode0: Writefile2
+inode1: 
+inode2: 
+WRITE /file1
+PATH_TO_INODE_MAP:
+/file1: 1
+/file2: 0
+INODE_BITMAP: [1, 1, 0]
+DATA_BLOCK_BITMAP: [1, 1, 1, 1, 0, 0]
+inode0: Writefile2
+inode1: Writefile1
+inode2: 
+CREATE /file3
+PATH_TO_INODE_MAP:
+/file1: 1
+/file2: 0
+/file3: 2
+INODE_BITMAP: [1, 1, 1]
+DATA_BLOCK_BITMAP: [1, 1, 1, 1, 0, 0]
+inode0: Writefile2
+inode1: Writefile1
+inode2: 
+WRITE /file3
+PATH_TO_INODE_MAP:
+/file1: 1
+/file2: 0
+/file3: 2
+INODE_BITMAP: [1, 1, 1]
+DATA_BLOCK_BITMAP: [1, 1, 1, 1, 1, 1]
+inode0: Writefile2
+inode1: Writefile1
+inode2: Writefile3
+WRITE /file1
+PATH_TO_INODE_MAP:
+/file1: 1
+/file2: 0
+/file3: 2
+INODE_BITMAP: [1, 1, 1]
+DATA_BLOCK_BITMAP: [1, 1, 1, 1, 1, 1]
+inode0: Writefile2
+inode1: Writefile4
+inode2: Writefile3
+READ /file1
+DATA BLOCK 2: Write
+DATA BLOCK 3: file4
+PATH_TO_INODE_MAP:
+/file1: 1
+/file2: 0
+/file3: 2
+INODE_BITMAP: [1, 1, 1]
+DATA_BLOCK_BITMAP: [1, 1, 1, 1, 1, 1]
+inode0: Writefile2
+inode1: Writefile4
+inode2: Writefile3
+DELETE /file1
+PATH_TO_INODE_MAP:
+/file2: 0
+/file3: 2
+INODE_BITMAP: [1, 0, 1]
+DATA_BLOCK_BITMAP: [1, 1, 0, 0, 1, 1]
+inode0: Writefile2
+inode1: 
+inode2: Writefile3
+WRITE /file2
+PATH_TO_INODE_MAP:
+/file2: 0
+/file3: 2
+INODE_BITMAP: [1, 0, 1]
+DATA_BLOCK_BITMAP: [1, 1, 0, 0, 1, 1]
+inode0: Writefile5
+inode1: 
+inode2: Writefile3
+WRITE /file3
+PATH_TO_INODE_MAP:
+/file2: 0
+/file3: 2
+INODE_BITMAP: [1, 0, 1]
+DATA_BLOCK_BITMAP: [1, 1, 0, 0, 1, 1]
+inode0: Writefile5
+inode1: 
+inode2: Writefile6
+READ /file2
+DATA BLOCK 0: Write
+DATA BLOCK 1: file5
+PATH_TO_INODE_MAP:
+/file2: 0
+/file3: 2
+INODE_BITMAP: [1, 0, 1]
+DATA_BLOCK_BITMAP: [1, 1, 0, 0, 1, 1]
+inode0: Writefile5
+inode1: 
+inode2: Writefile6
+READ /file3
+DATA BLOCK 4: Write
+DATA BLOCK 5: file6
+PATH_TO_INODE_MAP:
+/file2: 0
+/file3: 2
+INODE_BITMAP: [1, 0, 1]
+DATA_BLOCK_BITMAP: [1, 1, 0, 0, 1, 1]
+inode0: Writefile5
+inode1: 
+inode2: Writefile6
+DELETE /file3
+PATH_TO_INODE_MAP:
+/file2: 0
+INODE_BITMAP: [1, 0, 0]
+DATA_BLOCK_BITMAP: [1, 1, 0, 0, 0, 0]
+inode0: Writefile5
+inode1: 
+inode2: 
+WRITE /file2
+PATH_TO_INODE_MAP:
+/file2: 0
+INODE_BITMAP: [1, 0, 0]
+DATA_BLOCK_BITMAP: [1, 1, 1, 1, 0, 0]
+inode0: Writefile12345678910
+inode1: 
+inode2: 
+READ /file2
+DATA BLOCK 0: Write
+DATA BLOCK 1: file1
+DATA BLOCK 2: 23456
+DATA BLOCK 3: 78910
+PATH_TO_INODE_MAP:
+/file2: 0
+INODE_BITMAP: [1, 0, 0]
+DATA_BLOCK_BITMAP: [1, 1, 1, 1, 0, 0]
+inode0: Writefile12345678910
+inode1: 
+inode2: 

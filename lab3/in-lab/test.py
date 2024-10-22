@@ -53,7 +53,6 @@ class TestMyFS(unittest.TestCase):
             open(os.path.join(self.mount_dir_template.format(testcase_number), name), 'a').close()  # Create an empty file
         except Exception as e:
             print(f"Failed to create file '{name}' in test case {testcase_number}: {e}")
-            # Continue without stopping
 
     def _read_file(self, testcase_number, name, offset, length):
         """Read a portion of a file at a given offset."""
@@ -86,7 +85,6 @@ class TestMyFS(unittest.TestCase):
             os.remove(os.path.join(self.mount_dir_template.format(testcase_number), name))
         except Exception as e:
             print(f"Failed to delete file '{name}' in test case {testcase_number}: {e}")
-            # Continue without stopping
 
 
     def _compare_logs(self, testcase_number, score):
@@ -179,14 +177,101 @@ class TestMyFS(unittest.TestCase):
         additional_args = ["3", "4", "6"]  # Example additional arguments for myfs
         self.run_test_case(operations, 4, 40, additional_args)
 
+    def test_case5(self):
+        operations = [
+            {'type': 'create', 'name': 'work.try'},
+            {'type': 'write', 'name': 'work.try', 'content': 'Writing some stuff', 'offset': 0},
+            {'type': 'write', 'name': 'work.try', 'content': 'Can we overwrite this?', 'offset': 0},
+            {'type': 'write', 'name': 'work.try', 'content': 'What about here?', 'offset': 0},
+            {'type': 'write', 'name': 'work.try', 'content': 'Will this work?', 'offset': 10},
+            {'type': 'write', 'name': 'work.try', 'content': 'This definitely will not work', 'offset': 10},
+            {'type': 'read', 'name': 'work.try', 'offset': 0, 'length': 1024},
+            {'type': 'delete', 'name': 'work.try'}
+        ]
+        additional_args = ["2", "8", "4"]  # Example additional arguments for myfs
+        self.run_test_case(operations, 5, 40, additional_args)
+
+    def test_case6(self):
+        operations = [
+            {'type': 'create', 'name': 'try.work1'},
+            {'type': 'write', 'name': 'try.work1', 'content': 'Lets\ntry\nthis', 'offset': 0},
+            {'type': 'create', 'name': 'try.work2'},
+            {'type': 'write', 'name': 'try.work2', 'content': 'This won\'t\nwork', 'offset': 0},
+            {'type': 'read', 'name': 'try.work1', 'offset': 0, 'length': 1024},
+            {'type': 'delete', 'name': 'try.work1'},
+            {'type': 'write', 'name': 'try.work2', 'content': 'Works now', 'offset': 0},
+            {'type': 'write', 'name': 'try.work2', 'content': 'This also', 'offset': 3},
+            {'type': 'read', 'name': 'try.work2', 'offset': 0, 'length': 1024},
+            {'type': 'delete', 'name': 'try.work2'}
+        ]
+        additional_args = ["2", "5", "3"]  # Example additional arguments for myfs
+        self.run_test_case(operations, 6, 40, additional_args)
+
+    def test_case7(self):
+        operations = [
+            {'type': 'create', 'name': 'file2'},
+            {'type': 'write', 'name': 'file2', 'content': 'Writefile2', 'offset': 0},
+            {'type': 'create', 'name': 'file1'},
+            {'type': 'write', 'name': 'file1', 'content': 'Writefile1', 'offset': 0},
+            {'type': 'create', 'name': 'file3'},
+            {'type': 'write', 'name': 'file3', 'content': 'Writefile3', 'offset': 0},
+            {'type': 'write', 'name': 'file1', 'content': '4', 'offset': 9},
+            {'type': 'read', 'name': 'file1', 'offset': 0, 'length': 1024},
+            {'type': 'delete', 'name': 'file1'},
+            {'type': 'write', 'name': 'file2', 'content': '5', 'offset': 9},
+            {'type': 'write', 'name': 'file3', 'content': '6', 'offset': 9},
+            {'type': 'read', 'name': 'file2', 'offset': 0, 'length': 1024},
+            {'type': 'read', 'name': 'file3', 'offset': 0, 'length': 1024},
+            {'type': 'delete', 'name': 'file3'},
+            {'type': 'write', 'name': 'file2', 'content': '12345678910', 'offset': 9},
+            {'type': 'read', 'name': 'file2', 'offset': 0, 'length': 1024},
+        ]
+        additional_args = ["3", "6", "5"]  # Example additional arguments for myfs
+        self.run_test_case(operations, 7, 50, additional_args)
+
+    def test_case8(self):
+        operations = [
+            {'type': 'create', 'name': 'program.cpp'},
+            {'type': 'write', 'name': 'program.cpp', 'content': '#include "program.h"\n', 'offset': 0},
+            {'type': 'write', 'name': 'program.cpp', 'content': 'using namespace std;\n', 'offset': 15},
+            {'type': 'write', 'name': 'program.cpp', 'content': 'int main(){\n', 'offset': 4},
+            {'type': 'write', 'name': 'program.cpp', 'content': '  cou << "Hello World!"\n', 'offset': 20},
+            {'type': 'read', 'name': 'program.cpp', 'offset': 0, 'length': 1024},
+            {'type': 'write', 'name': 'program.cpp', 'content': '  return 0;\n', 'offset': 30},
+            {'type': 'write', 'name': 'program.cpp', 'content': '}\n', 'offset': 31},
+
+
+            {'type': 'create', 'name': 'hello.py'},
+            {'type': 'write', 'name': 'hello.py', 'content': 'print("Hello World!")\n', 'offset': 0},
+            {'type': 'read', 'name': 'program.cpp', 'offset': 0, 'length': 1024},
+            {'type': 'read', 'name': 'hello.py', 'offset': 0, 'length': 1024},
+
+            {'type': 'write', 'name': 'program.cpp', 'content': '}\n', 'offset': 0},
+
+            {'type': 'create', 'name': 'program.h'},
+            {'type': 'write', 'name': 'program.h', 'content': '#include<bits/stdc++.h>\n', 'offset': 0},
+            {'type': 'read', 'name': 'program.h', 'offset': 0, 'length': 1024},
+
+            {'type': 'create', 'name': 'hello.py.h'},
+            {'type': 'write', 'name': 'program.h', 'content': '#####################################################\n', 'offset': 10},
+        ]
+        additional_args = ["3", "20", "8"]
+        self.run_test_case(operations, 8, 50, additional_args)
+
 if __name__ == "__main__":
     unittest.main(exit=False)
-    for i in range(1, 2):
+
+    total = 0
+    for i in range(1, 9):
         if "test_case_" + str(i) not in scores["scores"]:
             scores["scores"]["test_case_" + str(i)] = 0
+        total += scores["scores"]["test_case_" + str(i)]
+
 
     # print(json.dumps({"_presentation": "semantic"}, separators=(',', ': ')))
     # print(json.dumps(scores, separators=(',', ': ')))
+    print("Total score: ", total)
+
 
     with open("test_results.json", "w") as f:
         f.write(json.dumps({"_presentation": "semantic"}, separators=(',', ': ')))
