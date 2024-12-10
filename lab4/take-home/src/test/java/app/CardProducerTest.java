@@ -1,27 +1,78 @@
 package app;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.kafka.clients.producer.MockProducer;
 import org.apache.kafka.common.serialization.StringSerializer;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class CardProducerTest {
 
 
     private static int testCaseCounter = 1;
+    private static final int toAdd = 0;
+
+    private static final int[] points = {10, 20, 30, 30, 30, 30, 50, 50};
+
+    private static int[] actual = {0, 0, 0, 0, 0, 0, 0, 0};
+
+    private static boolean withoutFailure = false;
 
     @BeforeEach
     public void printTestCaseNumber() {
         System.out.println("Running Test Case " + testCaseCounter++ + "...");
     }
 
+    @AfterEach
+    public void resetBool() {
+        if(withoutFailure){
+            actual[testCaseCounter-2] = points[testCaseCounter-2];
+        }
+        withoutFailure = false;
+    }
+
+    @AfterAll
+    public static void printFinalPoints() {
+        Map<String, Object> presentation = new HashMap<>();
+        Map<String, Object> scores = new HashMap<>();
+        Map<String, Integer> testCaseScores = new HashMap<>();
+
+        for (int i = 1; i <= actual.length; i++) {
+            testCaseScores.put("test_case_" + (toAdd + i), actual[i - 1]);
+        }
+
+        presentation.put("_presentation", "semantic");
+        scores.put("scores", testCaseScores);
+
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            String targetDir = System.getProperty("user.dir") + "/target";
+            File targetFile = new File(targetDir, "test_results_producer.json");
+
+            mapper.writeValue(targetFile, presentation);
+            try (var writer = new java.io.FileWriter(targetFile, true)) {
+                writer.write("\n");
+                writer.write(mapper.writeValueAsString(scores));
+            }
+
+            System.out.println("Test results written to: " + targetFile.getAbsolutePath());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     @Test
+    @Order(1)
     public void testSendCardsSimple4() {
 
         String topic = "cards-topic";
@@ -40,9 +91,12 @@ class CardProducerTest {
         );
 
         testSendCardsSimple(cards, topic, cardJsons);
+        withoutFailure = true;
+
     }
 
     @Test
+    @Order(2)
     public void testSendCardsSimple10() {
 
         String topic = "cards-topic";
@@ -74,28 +128,37 @@ class CardProducerTest {
         );
 
         testSendCardsSimple(cards, topic, cardJsons);
+        withoutFailure = true;
+
     }
 
 
     @Test
+    @Order(3)
     public void testSendCardsSimpleStress100000() {
 
         int numCards = 100000;
         String topic = "cards-topic";
 
         testSendCardsSimpleStress(numCards, topic);
+        withoutFailure = true;
+
     }
 
     @Test
+    @Order(4)
     public void testSendCardsSimpleStress1000000() {
 
         int numCards = 1000000;
         String topic = "cards-topic";
 
         testSendCardsSimpleStress(numCards, topic);
+        withoutFailure = true;
+
     }
 
     @Test
+    @Order(5)
     public void testSendCardsMultiThreaded4() {
 
         String topic = "cards-topic";
@@ -116,9 +179,12 @@ class CardProducerTest {
         );
 
         testSendCardsMultiThreaded(numPartitions, cards, topic, cardJsons);
+        withoutFailure = true;
+
     }
 
     @Test
+    @Order(6)
     public void testSendCardsMultiThreaded10() {
 
         String topic = "cards-topic";
@@ -151,9 +217,12 @@ class CardProducerTest {
         );
 
         testSendCardsMultiThreaded(numPartitions, cards, topic, cardJsons);
+        withoutFailure = true;
+
     }
 
     @Test
+    @Order(7)
     public void testSendCardsMultiThreadedStress100000() {
 
         int numCards = 100000;
@@ -161,9 +230,12 @@ class CardProducerTest {
         String topic = "cards-topic";
 
         testSendCardsMultiThreadedStress(numPartitions, numCards, topic);
+        withoutFailure = true;
+
     }
 
     @Test
+    @Order(8)
     public void testSendCardsMultiThreadedStress1000000() {
 
         int numCards = 1000000;
@@ -171,6 +243,8 @@ class CardProducerTest {
         String topic = "cards-topic";
 
         testSendCardsMultiThreadedStress(numPartitions, numCards, topic);
+        withoutFailure = true;
+
     }
 
     private static void testSendCardsSimple(List<Card> cards, String topic, List<String> cardJsons) {
